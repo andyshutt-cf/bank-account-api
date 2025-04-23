@@ -57,7 +57,7 @@ This solution contains a simple Bank Account MVC project with a REST API, a fron
    This will display the Bank Account UI.
    ![Bank Account UI](images/bank-account-ui.png)
 
-7. Run the API and unit tests:
+7. Run the API and unit tests from the project root directory:
    ```sh
    dotnet test BankAccountAPI.Tests
    ```
@@ -67,18 +67,16 @@ This solution contains a simple Bank Account MVC project with a REST API, a fron
    dotnet test BankAccountUI.Tests
    ```
 
-## Running Tests
+## Running Tests Separately
 
-To run the tests in this project, follow these steps:
-
-1. Ensure you have the .NET SDK installed on your machine.
-2. Open a terminal and navigate to the `BankAccountAPI.Tests` directory.
-3. Run the following command to execute the tests:
+### API Tests
+1. Open a terminal and navigate to the `BankAccountAPI.Tests` directory.
+2. Run the following command to execute the tests:
    ```sh
    dotnet test
    ```
 
-For UI testing using Selenium:
+### UI Tests with Selenium:
 1. Ensure **Google Chrome** is installed on your system.
 2. Open a terminal and navigate to `BankAccountUI.Tests`.
 3. Run:
