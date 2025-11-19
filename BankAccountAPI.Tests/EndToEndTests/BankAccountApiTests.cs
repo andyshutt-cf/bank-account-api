@@ -113,7 +113,7 @@ namespace BankAccountAPI.Tests.EndToEndTests
         }
 
         /// <summary>
-        /// Scenario 6: Transfer funds between two bank accounts
+        /// TODO: Scenario 6: Transfer funds between two bank accounts
         /// Given two bank accounts exist in the system
         /// When I transfer a valid amount from one account to another
         /// Then the source account balance should decrease, the destination account balance should increase, and I should receive a 200 OK response
