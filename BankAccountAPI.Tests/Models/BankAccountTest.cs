@@ -60,6 +60,18 @@ namespace BankAccountAPI.Tests.Models
         }
 
         [Test]
+        public void Deposit_ShouldThrowArgumentException_WhenAmountIsZero()
+        {
+            // Arrange
+            var account = new BankAccount();
+            decimal depositAmount = 0.0m;
+
+            // Act & Assert
+            Action act = () => account.Deposit(depositAmount, "ATM Credit");
+            act.Should().Throw<ArgumentException>().WithMessage("Deposit amount must be positive.");
+        }
+
+        [Test]
         public void Withdraw_ShouldDecreaseBalance_WhenTransactionTypeIsAtmDebit()
         {
             // Arrange
@@ -109,6 +121,19 @@ namespace BankAccountAPI.Tests.Models
             // Arrange
             var account = new BankAccount();
             decimal withdrawAmount = -50.0m;
+
+            // Act & Assert
+            Action act = () => account.Withdraw(withdrawAmount, "ATM Debit");
+            act.Should().Throw<ArgumentException>().WithMessage("Withdrawal amount must be positive.");
+        }
+
+        [Test]
+        public void Withdraw_ShouldThrowArgumentException_WhenAmountIsZero()
+        {
+            // Arrange
+            var account = new BankAccount();
+            account.Deposit(100.0m, "ATM Credit");
+            decimal withdrawAmount = 0.0m;
 
             // Act & Assert
             Action act = () => account.Withdraw(withdrawAmount, "ATM Debit");
