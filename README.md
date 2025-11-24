@@ -108,6 +108,11 @@ Make sure to restore the packages by running:
 - Moq (for mocking dependencies in tests)
 - Selenium WebDriver (for UI testing)
 
+## Documentation
+
+For detailed architectural documentation:
+- **[BankAccountService Architecture](docs/BankAccountService-Architecture.md)**: Comprehensive explanation of the BankAccountService class, including design patterns, transaction handling, and method responsibilities.
+
 ## Contributing
 Feel free to submit issues or pull requests for improvements or bug fixes.
 
