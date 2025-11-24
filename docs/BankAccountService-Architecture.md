@@ -117,15 +117,16 @@ account.Withdraw(50.00m, "Debit");
 - Transaction type must end with "Debit" (case-insensitive)
 - Amount must be greater than zero
 - Amount cannot exceed current balance
-- Special case: If withdrawal amount equals balance, no operation is performed (returns early)
 
-**Edge Case Handling:**
+**Unusual Edge Case Behavior:**
 ```csharp
 if (amount == Balance)
 {
     return; // No-op when withdrawing exact balance
 }
 ```
+
+**⚠️ Note:** The current implementation has an unusual behavior where withdrawing the exact account balance performs no operation. This appears to be a bug rather than intentional design, as it contradicts typical banking behavior where withdrawing the full balance should zero the account. In production, this logic should be reviewed and likely corrected to allow withdrawals that result in a zero balance.
 
 #### 3. Transfer Operations
 
@@ -385,7 +386,7 @@ The service is thoroughly tested in `BankAccountAPI.Tests/Services/BankAccountSe
 3. ✅ `CreateAccount_ShouldAddAccount` - Validates account creation
 4. ✅ `UpdateAccount_ValidId_ShouldUpdateAccount` - Checks update functionality
 5. ✅ `DeleteAccount_ValidId_ShouldRemoveAccount` - Confirms deletion
-6. ✅ `InitialiseAccounts_ShouldClearExistingAccounts` - Tests initialization
+6. ✅ `InitialiseAccounts_ShouldClearExistingAccounts` - Tests initialization (note: test name has British spelling "Initialise")
 
 **Test Setup Pattern:**
 ```csharp
