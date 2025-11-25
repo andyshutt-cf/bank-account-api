@@ -104,5 +104,28 @@ namespace BankAccountAPI.Tests.Controllers
             // Assert
             Assert.IsInstanceOf<BadRequestObjectResult>(result);
         }
+
+        [Test]
+        public void Transfer_SameAccount_ReturnsBadRequest()
+        {
+            // Arrange
+            var request = new TransferRequest { FromAccountId = 1, ToAccountId = 1, Amount = 100 };
+
+            // Act
+            var result = _controller.Transfer(request);
+
+            // Assert
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+        }
+
+        [Test]
+        public void Transfer_NullRequest_ReturnsBadRequest()
+        {
+            // Act
+            var result = _controller.Transfer(null);
+
+            // Assert
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+        }
     }
 }

@@ -64,6 +64,21 @@ namespace BankAccountAPI.Controllers
         [HttpPost("transfer")]
         public IActionResult Transfer([FromBody] TransferRequest request)
         {
+            if (request == null)
+            {
+                return BadRequest(new { error = "Transfer request cannot be null" });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (request.FromAccountId == request.ToAccountId)
+            {
+                return BadRequest(new { error = "Cannot transfer to the same account" });
+            }
+
             try
             {
                 _bankAccountService.TransferFunds(request.FromAccountId, request.ToAccountId, request.Amount);
