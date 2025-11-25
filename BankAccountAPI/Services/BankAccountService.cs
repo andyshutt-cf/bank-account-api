@@ -62,5 +62,12 @@ namespace BankAccountAPI.Services
         {
             _accounts = accounts;
         }
+
+        public void TransferFunds(int fromAccountId, int toAccountId, decimal amount)
+        {
+            var fromAccount = GetAccountById(fromAccountId);
+            var toAccount = GetAccountById(toAccountId);
+            fromAccount.Transfer(toAccount, amount);
+        }
     }
 }

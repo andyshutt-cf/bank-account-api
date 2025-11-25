@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System;
 
 namespace BankAccountAPI.Tests.Controllers
 {
@@ -57,6 +58,51 @@ namespace BankAccountAPI.Tests.Controllers
             var okResult = result.Result as OkObjectResult;
             Assert.IsNotNull(okResult);
             Assert.AreEqual(account, okResult.Value);
+        }
+
+        [Test]
+        public void Transfer_ValidTransfer_ReturnsOkResult()
+        {
+            // Arrange
+            var request = new TransferRequest { FromAccountId = 1, ToAccountId = 2, Amount = 100 };
+            _mockService.Setup(service => service.TransferFunds(1, 2, 100));
+
+            // Act
+            var result = _controller.Transfer(request);
+
+            // Assert
+            Assert.IsInstanceOf<OkObjectResult>(result);
+            _mockService.Verify(service => service.TransferFunds(1, 2, 100), Times.Once);
+        }
+
+        [Test]
+        public void Transfer_InsufficientFunds_ReturnsBadRequest()
+        {
+            // Arrange
+            var request = new TransferRequest { FromAccountId = 1, ToAccountId = 2, Amount = 100 };
+            _mockService.Setup(service => service.TransferFunds(1, 2, 100))
+                       .Throws(new InvalidOperationException("Insufficient funds."));
+
+            // Act
+            var result = _controller.Transfer(request);
+
+            // Assert
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+        }
+
+        [Test]
+        public void Transfer_InvalidAmount_ReturnsBadRequest()
+        {
+            // Arrange
+            var request = new TransferRequest { FromAccountId = 1, ToAccountId = 2, Amount = -100 };
+            _mockService.Setup(service => service.TransferFunds(1, 2, -100))
+                       .Throws(new ArgumentException("Transfer amount must be positive."));
+
+            // Act
+            var result = _controller.Transfer(request);
+
+            // Assert
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
         }
     }
 }

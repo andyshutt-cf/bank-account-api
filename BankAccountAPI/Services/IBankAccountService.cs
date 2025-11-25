@@ -12,5 +12,6 @@ namespace BankAccountAPI.Services
         void DeleteAccount(int id);
         void CreateAccount(BankAccount account);
         void UpdateAccount(BankAccount account);
+        void TransferFunds(int fromAccountId, int toAccountId, decimal amount);
     }
 }

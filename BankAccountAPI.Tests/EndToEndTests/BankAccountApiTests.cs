@@ -113,11 +113,32 @@ namespace BankAccountAPI.Tests.EndToEndTests
         }
 
         /// <summary>
-        /// TODO: Scenario 6: Transfer funds between two bank accounts
+        /// Scenario 6: Transfer funds between two bank accounts
         /// Given two bank accounts exist in the system
         /// When I transfer a valid amount from one account to another
         /// Then the source account balance should decrease, the destination account balance should increase, and I should receive a 200 OK response
         /// </summary>
+        [Test]
+        public async Task TransferFunds_ValidTransfer_ReturnsOkResponse()
+        {
+            // Arrange
+            var transferRequest = new TransferRequest { FromAccountId = 1, ToAccountId = 2, Amount = 500 };
+
+            // Act
+            var response = await _client.PostAsJsonAsync("/api/BankAccount/transfer", transferRequest);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            
+            // Verify balances changed correctly
+            var fromAccountResponse = await _client.GetAsync("/api/BankAccount/1");
+            var fromAccount = await fromAccountResponse.Content.ReadFromJsonAsync<BankAccount>();
+            Assert.AreEqual(500, fromAccount.Balance); // 1000 - 500
+
+            var toAccountResponse = await _client.GetAsync("/api/BankAccount/2");
+            var toAccount = await toAccountResponse.Content.ReadFromJsonAsync<BankAccount>();
+            Assert.AreEqual(2500, toAccount.Balance); // 2000 + 500
+        }
         
     }
 }

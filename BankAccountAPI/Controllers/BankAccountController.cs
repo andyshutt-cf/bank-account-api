@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using BankAccountAPI.Models;
 using BankAccountAPI.Services;
 using System.Collections.Generic;
+using System;
 
 namespace BankAccountAPI.Controllers
 {
@@ -58,6 +59,24 @@ namespace BankAccountAPI.Controllers
         {
             _bankAccountService.DeleteAccount(id);
             return NoContent();
+        }
+
+        [HttpPost("transfer")]
+        public IActionResult Transfer([FromBody] TransferRequest request)
+        {
+            try
+            {
+                _bankAccountService.TransferFunds(request.FromAccountId, request.ToAccountId, request.Amount);
+                return Ok(new { message = "Transfer successful" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
     }
 }

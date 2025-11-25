@@ -116,6 +116,73 @@ namespace BankAccountAPI.Tests.Services
             Assert.AreEqual(accounts.Count, _service.GetAllAccounts().Count());
         }
 
+        [Test]
+        public void TransferFunds_ValidTransfer_ShouldUpdateBothAccountBalances()
+        {
+            // Arrange
+            var fromAccount = new BankAccount { Id = 1, AccountNumber = "123456", AccountHolderName = "John Doe", Balance = 1000 };
+            var toAccount = new BankAccount { Id = 2, AccountNumber = "654321", AccountHolderName = "Jane Doe", Balance = 500 };
+            _service.CreateAccount(fromAccount);
+            _service.CreateAccount(toAccount);
+            decimal transferAmount = 300;
+
+            // Act
+            _service.TransferFunds(1, 2, transferAmount);
+
+            // Assert
+            Assert.AreEqual(700, _service.GetAccountById(1).Balance);
+            Assert.AreEqual(800, _service.GetAccountById(2).Balance);
+        }
+
+        [Test]
+        public void TransferFunds_InsufficientFunds_ShouldThrowInvalidOperationException()
+        {
+            // Arrange
+            var fromAccount = new BankAccount { Id = 1, AccountNumber = "123456", AccountHolderName = "John Doe", Balance = 100 };
+            var toAccount = new BankAccount { Id = 2, AccountNumber = "654321", AccountHolderName = "Jane Doe", Balance = 500 };
+            _service.CreateAccount(fromAccount);
+            _service.CreateAccount(toAccount);
+            decimal transferAmount = 300;
+
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => _service.TransferFunds(1, 2, transferAmount));
+        }
+
+        [Test]
+        public void TransferFunds_InvalidFromAccount_ShouldThrowInvalidOperationException()
+        {
+            // Arrange
+            var toAccount = new BankAccount { Id = 2, AccountNumber = "654321", AccountHolderName = "Jane Doe", Balance = 500 };
+            _service.CreateAccount(toAccount);
+
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => _service.TransferFunds(999, 2, 100));
+        }
+
+        [Test]
+        public void TransferFunds_InvalidToAccount_ShouldThrowInvalidOperationException()
+        {
+            // Arrange
+            var fromAccount = new BankAccount { Id = 1, AccountNumber = "123456", AccountHolderName = "John Doe", Balance = 1000 };
+            _service.CreateAccount(fromAccount);
+
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => _service.TransferFunds(1, 999, 100));
+        }
+
+        [Test]
+        public void TransferFunds_NegativeAmount_ShouldThrowArgumentException()
+        {
+            // Arrange
+            var fromAccount = new BankAccount { Id = 1, AccountNumber = "123456", AccountHolderName = "John Doe", Balance = 1000 };
+            var toAccount = new BankAccount { Id = 2, AccountNumber = "654321", AccountHolderName = "Jane Doe", Balance = 500 };
+            _service.CreateAccount(fromAccount);
+            _service.CreateAccount(toAccount);
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _service.TransferFunds(1, 2, -100));
+        }
+
         // [Test]
         // public void GetAccountById_InvalidId_ShouldReturnNull()
         // {
