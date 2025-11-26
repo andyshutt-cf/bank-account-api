@@ -82,7 +82,7 @@ This follows the **Dependency Inversion Principle** - depend on abstractions, no
 ### Data Retrieval Methods
 
 #### `GetAllAccounts()`
-**Location:** Line 11-14  
+**Location:** Lines 11-14  
 **Purpose:** Retrieves all bank accounts in the system
 
 ```csharp
@@ -98,7 +98,7 @@ public IEnumerable<BankAccount> GetAllAccounts()
 - Returns an `IEnumerable` to provide read-only access
 
 #### `GetAccountById(int id)`
-**Location:** Line 16-20  
+**Location:** Lines 16-20  
 **Purpose:** Retrieves a specific account by its unique identifier
 
 ```csharp
@@ -133,7 +133,7 @@ public void CreateAccount(BankAccount account)
 - No validation for duplicate IDs or account numbers
 
 #### `UpdateAccount(BankAccount account)`
-**Location:** Line 49-59  
+**Location:** Lines 49-59  
 **Purpose:** Updates an existing bank account's properties
 
 ```csharp
@@ -157,7 +157,7 @@ public void UpdateAccount(BankAccount account)
 - Preserves the account's position in the list
 
 #### `DeleteAccount(int id)`
-**Location:** Line 27-42  
+**Location:** Lines 27-42  
 **Purpose:** Removes a bank account from the system
 
 ```csharp
@@ -185,7 +185,7 @@ public void DeleteAccount(int id)
 - Converts `InvalidOperationException` to `KeyNotFoundException` for consistency
 
 #### `InitializeAccounts(List<BankAccount> accounts)`
-**Location:** Line 61-64  
+**Location:** Lines 61-64  
 **Purpose:** Initializes or replaces the entire account collection
 
 ```csharp
@@ -290,7 +290,7 @@ public void Transfer(BankAccount toAccount, decimal amount)
 
 ### Transaction Initialization
 
-The application demonstrates transaction handling during startup in `Startup.cs` (lines 58-134):
+The application demonstrates transaction handling during startup in `Startup.cs` (lines 57-134):
 
 1. **Account Creation:** Creates 20 accounts with random initial balances
 2. **Random Transactions:** Performs 100 random credit/debit transactions per account
@@ -302,12 +302,14 @@ The application demonstrates transaction handling during startup in `Startup.cs`
 if (transAmt >= 0)
 {
     acc.Deposit(transAmt, "Credit");
-    Console.WriteLine("Credit: " + transAmt + ", Balance: " + acc.Balance + ...);
+    Console.WriteLine("Credit: " + transAmt + ", Balance: " + acc.Balance + 
+        ", Account Holder: " + acc.AccountHolderName + ", Account Type: " + type);
 }
 else
 {
     acc.Withdraw(-transAmt, "Debit");
-    Console.WriteLine("Debit: " + -transAmt + ", Balance: " + acc.Balance + ...);
+    Console.WriteLine("Debit: " + -transAmt + ", Balance: " + acc.Balance + 
+        ", Account Holder: " + acc.AccountHolderName + ", Account Type: " + type);
 }
 ```
 
