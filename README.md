@@ -8,6 +8,7 @@ This solution contains a simple Bank Account MVC project with a REST API, a fron
 - **Controllers**: Contains the `BankAccountController` which handles HTTP requests related to bank accounts.
 - **Models**: Defines the `BankAccount` class representing a bank account with properties like `Id`, `AccountNumber`, `AccountHolderName`, and `Balance`.
 - **Services**: Implements the `BankAccountService` class that provides business logic for managing bank accounts.
+  - For detailed architecture documentation, see [BankAccountService Architecture](BankAccountService-Architecture.md)
 
 ### BankAccountUI (Front-End)
 - **Razor Pages**: Implements a simple front-end for viewing bank accounts.
