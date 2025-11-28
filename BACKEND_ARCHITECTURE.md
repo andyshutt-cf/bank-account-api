@@ -31,13 +31,14 @@ Services contain the core business logic and data manipulation operations. They 
 
 #### Key Components:
 - **IBankAccountService** (Interface) - Defines the contract for bank account operations
-  ```
-  - InitializeAccounts(List<BankAccount>) - Populate initial data
-  - GetAllAccounts() - Retrieve all accounts
-  - GetAccountById(int) - Retrieve account by ID
-  - CreateAccount(BankAccount) - Add new account
-  - UpdateAccount(BankAccount) - Modify existing account
-  - DeleteAccount(int) - Remove account by ID
+  ```csharp
+  void InitializeAccounts(List<BankAccount> accounts)
+  IEnumerable<BankAccount> GetAllAccounts()
+  BankAccount GetAccountById(int id)
+  void AddAccount(BankAccount account)
+  void DeleteAccount(int id)
+  void CreateAccount(BankAccount account)
+  void UpdateAccount(BankAccount account)
   ```
 
 - **BankAccountService** (`Services/BankAccountService.cs`)
@@ -109,14 +110,14 @@ Domain models represent the core business entities.
 - Data is lost when the application restarts
 - Suitable for development and testing purposes
 
-**Note:** The project references Entity Framework Core InMemory package (`Microsoft.EntityFrameworkCore.InMemory`), suggesting potential for future database integration, but currently uses a simple list-based approach.
+**Note:** The project references Entity Framework Core InMemory package (`Microsoft.EntityFrameworkCore.InMemory`) in its dependencies, which may indicate plans for future database integration. However, the current implementation uses a simple list-based approach for data storage.
 
 ## Dependency Injection
 
 The application uses ASP.NET Core's built-in dependency injection container:
 
 ```
-Services → Interfaces → Controllers
+Controllers → Interfaces ← Services (implement)
 ```
 
 **Benefits:**
