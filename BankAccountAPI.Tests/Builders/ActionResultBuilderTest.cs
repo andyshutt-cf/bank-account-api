@@ -53,32 +53,6 @@ namespace BankAccountAPI.Tests.Builders
         }
 
         [Test]
-        public void BuildWithoutValue_AsNoContent_ReturnsNoContentResult()
-        {
-            // Act
-            var result = ActionResultBuilder<BankAccount>
-                .Create()
-                .AsNoContent()
-                .BuildWithoutValue();
-
-            // Assert
-            Assert.IsInstanceOf<NoContentResult>(result);
-        }
-
-        [Test]
-        public void BuildWithoutValue_AsBadRequest_ReturnsBadRequestResult()
-        {
-            // Act
-            var result = ActionResultBuilder<BankAccount>
-                .Create()
-                .AsBadRequest()
-                .BuildWithoutValue();
-
-            // Assert
-            Assert.IsInstanceOf<BadRequestResult>(result);
-        }
-
-        [Test]
         public void BuildCreatedAtAction_ReturnsCreatedAtActionResult()
         {
             // Arrange
@@ -135,6 +109,45 @@ namespace BankAccountAPI.Tests.Builders
 
             // Assert
             Assert.IsInstanceOf<OkObjectResult>(result.Result);
+        }
+
+        [Test]
+        public void NonGenericBuilder_AsNoContent_ReturnsNoContentResult()
+        {
+            // Act
+            var result = ActionResultBuilder
+                .Create()
+                .AsNoContent()
+                .Build();
+
+            // Assert
+            Assert.IsInstanceOf<NoContentResult>(result);
+        }
+
+        [Test]
+        public void NonGenericBuilder_AsBadRequest_ReturnsBadRequestResult()
+        {
+            // Act
+            var result = ActionResultBuilder
+                .Create()
+                .AsBadRequest()
+                .Build();
+
+            // Assert
+            Assert.IsInstanceOf<BadRequestResult>(result);
+        }
+
+        [Test]
+        public void NonGenericBuilder_AsNotFound_ReturnsNotFoundResult()
+        {
+            // Act
+            var result = ActionResultBuilder
+                .Create()
+                .AsNotFound()
+                .Build();
+
+            // Assert
+            Assert.IsInstanceOf<NotFoundResult>(result);
         }
     }
 }

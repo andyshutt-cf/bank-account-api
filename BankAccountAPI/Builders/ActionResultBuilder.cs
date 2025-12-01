@@ -70,31 +70,15 @@ namespace BankAccountAPI.Builders
         {
             if (_isError)
             {
-                return BuildErrorResult();
+                return BuildError();
             }
 
             return _statusCode switch
             {
                 200 => new OkObjectResult(_data),
-                201 => new CreatedResult(string.Empty, _data),
+                201 => new CreatedResult((string?)null, _data),
                 204 => new NoContentResult(),
                 _ => new ObjectResult(_data) { StatusCode = _statusCode }
-            };
-        }
-
-        public ActionResult BuildWithoutValue()
-        {
-            if (_isError)
-            {
-                return BuildErrorResultWithoutValue();
-            }
-
-            return _statusCode switch
-            {
-                204 => new NoContentResult(),
-                400 => new BadRequestResult(),
-                404 => new NotFoundResult(),
-                _ => new StatusCodeResult(_statusCode)
             };
         }
 
@@ -103,7 +87,7 @@ namespace BankAccountAPI.Builders
             return new CreatedAtActionResult(actionName, null, routeValues, value);
         }
 
-        private ActionResult<T> BuildErrorResult()
+        private ActionResult BuildError()
         {
             return _statusCode switch
             {
@@ -112,8 +96,67 @@ namespace BankAccountAPI.Builders
                 _ => new ObjectResult(_errorMessage ?? "An error occurred") { StatusCode = _statusCode }
             };
         }
+    }
 
-        private ActionResult BuildErrorResultWithoutValue()
+    public class ActionResultBuilder
+    {
+        private int _statusCode = 200;
+        private string? _errorMessage;
+        private bool _isError = false;
+
+        public static ActionResultBuilder Create()
+        {
+            return new ActionResultBuilder();
+        }
+
+        public ActionResultBuilder WithStatusCode(int statusCode)
+        {
+            _statusCode = statusCode;
+            return this;
+        }
+
+        public ActionResultBuilder WithError(string errorMessage)
+        {
+            _errorMessage = errorMessage;
+            _isError = true;
+            return this;
+        }
+
+        public ActionResultBuilder AsNoContent()
+        {
+            _statusCode = 204;
+            return this;
+        }
+
+        public ActionResultBuilder AsNotFound()
+        {
+            _statusCode = 404;
+            _isError = true;
+            return this;
+        }
+
+        public ActionResultBuilder AsBadRequest()
+        {
+            _statusCode = 400;
+            _isError = true;
+            return this;
+        }
+
+        public ActionResult Build()
+        {
+            if (_isError)
+            {
+                return BuildError();
+            }
+
+            return _statusCode switch
+            {
+                204 => new NoContentResult(),
+                _ => new StatusCodeResult(_statusCode)
+            };
+        }
+
+        private ActionResult BuildError()
         {
             return _statusCode switch
             {

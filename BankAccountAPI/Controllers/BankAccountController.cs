@@ -60,27 +60,27 @@ namespace BankAccountAPI.Controllers
         {
             if (id != account.Id)
             {
-                return ActionResultBuilder<BankAccount>
+                return ActionResultBuilder
                     .Create()
                     .AsBadRequest()
-                    .BuildWithoutValue();
+                    .Build();
             }
 
             _bankAccountService.UpdateAccount(account);
-            return ActionResultBuilder<BankAccount>
+            return ActionResultBuilder
                 .Create()
                 .AsNoContent()
-                .BuildWithoutValue();
+                .Build();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteAccount(int id)
         {
             _bankAccountService.DeleteAccount(id);
-            return ActionResultBuilder<BankAccount>
+            return ActionResultBuilder
                 .Create()
                 .AsNoContent()
-                .BuildWithoutValue();
+                .Build();
         }
     }
 }
