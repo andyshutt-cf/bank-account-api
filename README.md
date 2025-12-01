@@ -5,9 +5,10 @@ This solution contains a simple Bank Account MVC project with a REST API, a fron
 ## Project Overview
 
 ### BankAccountAPI
-- **Controllers**: Contains the `BankAccountController` which handles HTTP requests related to bank accounts.
-- **Models**: Defines the `BankAccount` class representing a bank account with properties like `Id`, `AccountNumber`, `AccountHolderName`, and `Balance`.
-- **Services**: Implements the `BankAccountService` class that provides business logic for managing bank accounts.
+- **Controllers**: Contains the `BankAccountController` which handles HTTP requests related to bank accounts, and the `PrimeController` for prime number checking.
+- **Models**: Defines the `BankAccount` class representing a bank account with properties like `Id`, `AccountNumber`, `AccountHolderName`, and `Balance`. Includes methods for `Deposit`, `Withdraw`, and `Transfer`.
+- **Services**: Implements the `BankAccountService` class that provides business logic for managing bank accounts, and `PrimeService` for prime number operations.
+- **Transactions**: Placeholder directory structure for future transaction-related functionality.
 
 ### BankAccountUI (Front-End)
 - **Razor Pages**: Implements a simple front-end for viewing bank accounts.
@@ -30,9 +31,9 @@ This solution contains a simple Bank Account MVC project with a REST API, a fron
    git clone <repository-url>
    ```
 
-2. Navigate to the solution directory:
+2. Navigate to the repository directory (where the solution file is located):
    ```sh
-   cd BankAccountSolution
+   cd bank-account-api  # This is the repository root, not a subdirectory
    ```
 
 3. Restore the dependencies:
@@ -44,8 +45,9 @@ This solution contains a simple Bank Account MVC project with a REST API, a fron
    ```sh
    dotnet run --project BankAccountAPI
    ```
+   The API will be available at `http://localhost:5000`
 
-5. Run the front-end:
+5. Run the front-end (in a separate terminal):
    ```sh
    dotnet run --project BankAccountUI
    ```
@@ -57,7 +59,12 @@ This solution contains a simple Bank Account MVC project with a REST API, a fron
    This will display the Bank Account UI.
    ![Bank Account UI](images/bank-account-ui.png)
 
-7. Run the API and unit tests from the project root directory:
+7. Run all tests using the provided script:
+   ```sh
+   ./run-tests.sh
+   ```
+
+   Or run tests individually:
    ```sh
    dotnet test BankAccountAPI.Tests
    ```
@@ -66,6 +73,38 @@ This solution contains a simple Bank Account MVC project with a REST API, a fron
    ```sh
    dotnet test BankAccountUI.Tests
    ```
+
+## API Endpoints
+
+### Bank Account Controller (`/api/BankAccount`)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/BankAccount` | Get all bank accounts |
+| GET | `/api/BankAccount/{id}` | Get a specific bank account by ID |
+| POST | `/api/BankAccount` | Create a new bank account |
+| PUT | `/api/BankAccount/{id}` | Update an existing bank account |
+| DELETE | `/api/BankAccount/{id}` | Delete a bank account |
+
+### Prime Controller (`/api/prime`)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/prime/{number}` | Check if a number is prime |
+
+## Docker Support
+
+Build and run the API using Docker:
+
+```sh
+# Build the Docker image
+docker build -t bank-account-api .
+
+# Run the container
+docker run -p 8080:8080 bank-account-api
+```
+
+The API will be available at `http://localhost:8080`
 
 ## Running Tests Separately
 
@@ -84,6 +123,18 @@ This solution contains a simple Bank Account MVC project with a REST API, a fron
    dotnet test
    ```
    This will launch **Chrome**, navigate to the Bank Accounts page, and verify the UI.
+
+## Utility Scripts
+
+- **run-tests.sh**: Builds the solution and runs all tests
+  ```sh
+  ./run-tests.sh
+  ```
+
+- **free-port.sh**: Check if a port is in use and optionally free it
+  ```sh
+  ./free-port.sh <port_number>
+  ```
 
 ## Dependencies
 
