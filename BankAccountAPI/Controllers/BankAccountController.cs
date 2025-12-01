@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BankAccountAPI.Models;
 using BankAccountAPI.Services;
+using BankAccountAPI.Builders;
 using System.Collections.Generic;
 
 namespace BankAccountAPI.Controllers
@@ -20,7 +21,11 @@ namespace BankAccountAPI.Controllers
         public ActionResult<IEnumerable<BankAccount>> GetAllAccounts()
         {
             var accounts = _bankAccountService.GetAllAccounts();
-            return Ok(accounts);
+            return ActionResultBuilder<IEnumerable<BankAccount>>
+                .Create()
+                .WithData(accounts)
+                .AsOk()
+                .Build();
         }
 
         [HttpGet("{id}")]
@@ -29,16 +34,25 @@ namespace BankAccountAPI.Controllers
             var account = _bankAccountService.GetAccountById(id);
             if (account == null)
             {
-                return NotFound();
+                return ActionResultBuilder<BankAccount>
+                    .Create()
+                    .AsNotFound()
+                    .Build();
             }
-            return Ok(account);
+            return ActionResultBuilder<BankAccount>
+                .Create()
+                .WithData(account)
+                .AsOk()
+                .Build();
         }
 
         [HttpPost]
         public IActionResult CreateAccount(BankAccount account)
         {
             _bankAccountService.CreateAccount(account);
-            return CreatedAtAction(nameof(GetAccountById), new { id = account.Id }, account);
+            return ActionResultBuilder<BankAccount>
+                .Create()
+                .BuildCreatedAtAction(nameof(GetAccountById), new { id = account.Id }, account);
         }
 
         [HttpPut("{id}")]
@@ -46,18 +60,27 @@ namespace BankAccountAPI.Controllers
         {
             if (id != account.Id)
             {
-                return BadRequest();
+                return ActionResultBuilder<BankAccount>
+                    .Create()
+                    .AsBadRequest()
+                    .BuildWithoutValue();
             }
 
             _bankAccountService.UpdateAccount(account);
-            return NoContent();
+            return ActionResultBuilder<BankAccount>
+                .Create()
+                .AsNoContent()
+                .BuildWithoutValue();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteAccount(int id)
         {
             _bankAccountService.DeleteAccount(id);
-            return NoContent();
+            return ActionResultBuilder<BankAccount>
+                .Create()
+                .AsNoContent()
+                .BuildWithoutValue();
         }
     }
 }
