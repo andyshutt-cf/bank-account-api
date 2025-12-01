@@ -8,7 +8,6 @@ namespace BankAccountAPI.Controllers
     {
         private BankAccount? _account;
         private IEnumerable<BankAccount>? _accounts;
-        private int _accountId;
         private bool _isNotFound;
         private bool _isBadRequest;
         private bool _isCreated;
@@ -24,12 +23,6 @@ namespace BankAccountAPI.Controllers
         public BankAccountControllerResponseBuilder WithAccounts(IEnumerable<BankAccount> accounts)
         {
             _accounts = accounts;
-            return this;
-        }
-
-        public BankAccountControllerResponseBuilder WithAccountId(int accountId)
-        {
-            _accountId = accountId;
             return this;
         }
 
