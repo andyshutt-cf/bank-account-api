@@ -2,6 +2,10 @@
 
 This solution contains a simple Bank Account MVC project with a REST API, a front-end built with Razor Pages, and accompanying unit tests.
 
+## Documentation
+
+For a detailed explanation of the backend architecture, see [BACKEND_ARCHITECTURE.md](BACKEND_ARCHITECTURE.md).
+
 ## Project Overview
 
 ### BankAccountAPI
