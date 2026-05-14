@@ -1,0 +1,11 @@
+**/.git
+**/.gitignore
+**/.vscode
+**/bin
+**/obj
+**/.vs
+**/TestResults
+**/*.md
+**/images
+BankAccountUI/
+BankAccountUI.Tests/
