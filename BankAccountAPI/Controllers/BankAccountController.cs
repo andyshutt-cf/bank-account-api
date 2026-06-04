@@ -20,25 +20,34 @@ namespace BankAccountAPI.Controllers
         public ActionResult<IEnumerable<BankAccount>> GetAllAccounts()
         {
             var accounts = _bankAccountService.GetAllAccounts();
-            return Ok(accounts);
+            return new BankAccountControllerResponseBuilder()
+                .WithAccounts(accounts)
+                .BuildCollection(this);
         }
 
         [HttpGet("{id}")]
         public ActionResult<BankAccount> GetAccountById(int id)
         {
             var account = _bankAccountService.GetAccountById(id);
+            var builder = new BankAccountControllerResponseBuilder()
+                .WithAccount(account);
+            
             if (account == null)
             {
-                return NotFound();
+                builder.AsNotFound();
             }
-            return Ok(account);
+            
+            return builder.BuildSingle(this);
         }
 
         [HttpPost]
         public IActionResult CreateAccount(BankAccount account)
         {
             _bankAccountService.CreateAccount(account);
-            return CreatedAtAction(nameof(GetAccountById), new { id = account.Id }, account);
+            return new BankAccountControllerResponseBuilder()
+                .WithAccount(account)
+                .AsCreated(nameof(GetAccountById))
+                .Build(this);
         }
 
         [HttpPut("{id}")]
@@ -46,18 +55,24 @@ namespace BankAccountAPI.Controllers
         {
             if (id != account.Id)
             {
-                return BadRequest();
+                return new BankAccountControllerResponseBuilder()
+                    .AsBadRequest()
+                    .Build(this);
             }
 
             _bankAccountService.UpdateAccount(account);
-            return NoContent();
+            return new BankAccountControllerResponseBuilder()
+                .AsNoContent()
+                .Build(this);
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteAccount(int id)
         {
             _bankAccountService.DeleteAccount(id);
-            return NoContent();
+            return new BankAccountControllerResponseBuilder()
+                .AsNoContent()
+                .Build(this);
         }
     }
 }

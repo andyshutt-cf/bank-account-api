@@ -1,0 +1,29 @@
+Summary
+  Generated on: 19/11/2025 - 17:41:15
+  Coverage date: 19/11/2025 - 17:41:15
+  Parser: Cobertura
+  Assemblies: 1
+  Classes: 7
+  Files: 7
+  Line coverage: 83%
+  Covered lines: 191
+  Uncovered lines: 39
+  Coverable lines: 230
+  Total lines: 382
+  Branch coverage: 77% (37 of 48)
+  Covered branches: 37
+  Total branches: 48
+  Method coverage: 81.2% (26 of 32)
+  Full method coverage: 62.5% (20 of 32)
+  Covered methods: 26
+  Fully covered methods: 20
+  Total methods: 32
+
+BankAccountAPI                                         83%
+  BankAccountAPI.Controllers.BankAccountController   86.6%
+  BankAccountAPI.Controllers.PrimeController            0%
+  BankAccountAPI.Models.BankAccount                  76.1%
+  BankAccountAPI.Program                             62.5%
+  BankAccountAPI.Services.BankAccountService         73.6%
+  BankAccountAPI.Services.PrimeService               85.7%
+  BankAccountAPI.Startup                             94.9%
